@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-
+//moore's voting algorithm
 int findMajorityElement(int arr[], int n) {
 	int count=0;
 	int ele=-1;
