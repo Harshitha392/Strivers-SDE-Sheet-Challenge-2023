@@ -10,29 +10,26 @@
  *		Node(int x, Node *next, Node *child) : data(x), next(next), child(child) {}
  * };
  */
-Node* solve(Node* a, Node* b)
-{
-    if (a == NULL)
-        return b;
-    if (b == NULL)
-        return a;
-    Node* result;
-    if (a->data < b->data) {
-        result = a;
-        result->child = solve(a->child, b);
+#include <bits/stdc++.h>
+struct mycomp {
+    bool operator()(Node* a, Node* b)
+    {
+        return a->data > b->data;
     }
-    else {
-        result = b;
-        result->child = solve(a, b->child);
-    }
-    result->next = NULL;
-    return result;
-}
+};
 Node* flattenLinkedList(Node* root) 
 {
-	if (root == NULL || root->next == NULL)
-        return root;
-    root->next = flattenLinkedList(root->next);
-    root = solve(root, root->next);
-    return root;
+	priority_queue<Node*, vector<Node*>, mycomp> p;
+    while (root != NULL) {
+        p.push(root);
+        root = root->next;
+    }
+    while (!p.empty()) {
+        auto k = p.top();
+        p.pop();
+        cout << k->data << " ";
+        if (k->child)
+            p.push(k->child);
+    }
+	return root;
 }
